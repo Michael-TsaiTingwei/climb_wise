@@ -227,20 +227,34 @@ function selectAnswer(questionId, value) {
   }, 800);
 }
 
-function handleWheel(event) {
-  if (state.currentIndex === slides.length - 1) {
-    const resultSlide = slides[slides.length - 1];
-    const atTop = resultSlide.scrollTop <= 0;
+function getActiveSlide() {
+  return slides[state.currentIndex];
+}
 
-    if (event.deltaY < 0 && atTop && !state.isAnimating) {
+function canScrollSlide(slide) {
+  return slide && slide.scrollHeight - slide.clientHeight > 8;
+}
+
+function isSlideAtTop(slide) {
+  return !slide || slide.scrollTop <= 2;
+}
+
+function isSlideAtBottom(slide) {
+  return !slide || slide.scrollTop + slide.clientHeight >= slide.scrollHeight - 2;
+}
+
+function handleWheel(event) {
+  const activeSlide = getActiveSlide();
+
+  if (canScrollSlide(activeSlide)) {
+    const scrollingDownInside = event.deltaY > 0 && !isSlideAtBottom(activeSlide);
+    const scrollingUpInside = event.deltaY < 0 && !isSlideAtTop(activeSlide);
+
+    if (scrollingDownInside || scrollingUpInside) {
       event.preventDefault();
-      tryStep(-1);
+      activeSlide.scrollTop += event.deltaY;
       return;
     }
-
-    event.preventDefault();
-    resultSlide.scrollTop += event.deltaY;
-    return;
   }
 
   event.preventDefault();
@@ -252,14 +266,34 @@ function handleWheel(event) {
 
 function handleTouchStart(event) {
   state.touchStartY = event.changedTouches[0].clientY;
+  const activeSlide = getActiveSlide();
+  state.touchStartScrollTop = activeSlide ? activeSlide.scrollTop : 0;
 }
 
 function handleTouchEnd(event) {
   const endY = event.changedTouches[0].clientY;
   const delta = state.touchStartY - endY;
+  const activeSlide = getActiveSlide();
+
   if (Math.abs(delta) < 40 || state.isAnimating) {
     return;
   }
+
+  if (canScrollSlide(activeSlide)) {
+    const movedByNativeScroll = Math.abs((activeSlide?.scrollTop || 0) - state.touchStartScrollTop) > 8;
+    if (movedByNativeScroll) {
+      return;
+    }
+
+    if (delta > 0 && !isSlideAtBottom(activeSlide)) {
+      return;
+    }
+
+    if (delta < 0 && !isSlideAtTop(activeSlide)) {
+      return;
+    }
+  }
+
   tryStep(delta > 0 ? 1 : -1);
 }
 
@@ -301,7 +335,7 @@ function goToSlide(index) {
 }
 
 function updateSlides() {
-  app.style.transform = `translateY(-${state.currentIndex * 100}vh)`;
+  app.style.transform = `translateY(-${state.currentIndex * window.innerHeight}px)`;
   slides.forEach((slide, index) => {
     slide.classList.toggle("active", index === state.currentIndex);
   });
@@ -584,4 +618,5 @@ function closeModal() {
 }
 
 init();
+
 
