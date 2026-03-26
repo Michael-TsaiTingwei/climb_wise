@@ -617,7 +617,131 @@ function closeModal() {
   modal.setAttribute("aria-hidden", "true");
 }
 
+function handleScroll() {
+  if (state.scrollTicking) {
+    return;
+  }
+
+  state.scrollTicking = true;
+  window.requestAnimationFrame(() => {
+    updateActiveSlideByScroll();
+    updateProgress();
+    state.scrollTicking = false;
+  });
+}
+
+function updateActiveSlideByScroll() {
+  const viewportAnchor = window.innerHeight * 0.35;
+  let bestIndex = 0;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  slides.forEach((slide, index) => {
+    const rect = slide.getBoundingClientRect();
+    const slideAnchor = rect.top + Math.min(rect.height * 0.35, 220);
+    const distance = Math.abs(slideAnchor - viewportAnchor);
+
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestIndex = index;
+    }
+  });
+
+  state.currentIndex = bestIndex;
+  slides.forEach((slide, index) => {
+    slide.classList.toggle("active", index === state.currentIndex);
+  });
+}
+
+function scrollToSlide(index) {
+  const target = slides[index];
+  if (!target) {
+    return;
+  }
+
+  state.currentIndex = index;
+  updateProgress();
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function init() {
+  renderWelcomeScene();
+  renderQuestions();
+  renderResult();
+  persistUserData();
+
+  document.getElementById("startButton").addEventListener("click", () => {
+    scrollToSlide(1);
+  });
+  document.addEventListener("click", handleClick);
+  document.addEventListener("keydown", handleKeydown);
+  document.getElementById("miniProgramButton").addEventListener("click", handleMiniProgram);
+  document.getElementById("gameButton").addEventListener("click", handleGameLink);
+  document.getElementById("closeModal").addEventListener("click", closeModal);
+  document.getElementById("qrModal").addEventListener("click", (event) => {
+    if (event.target.dataset.close === "modal") {
+      closeModal();
+    }
+  });
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  window.addEventListener("resize", () => {
+    updateActiveSlideByScroll();
+    updateProgress();
+  });
+
+  updateActiveSlideByScroll();
+  updateProgress();
+}
+
+function selectAnswer(questionId, value) {
+  state.answers[questionId] = value;
+  const questionIndex = questions.findIndex((question) => question.id === questionId);
+
+  renderQuestions();
+  renderResult();
+  persistUserData();
+  updateProgress();
+
+  clearTimeout(state.autoAdvanceTimer);
+  state.autoAdvanceTimer = setTimeout(() => {
+    scrollToSlide(Math.min(questionIndex + 2, slides.length - 1));
+  }, 500);
+}
+
+function tryStep(direction) {
+  const nextIndex = Math.max(0, Math.min(slides.length - 1, state.currentIndex + direction));
+  if (nextIndex !== state.currentIndex) {
+    scrollToSlide(nextIndex);
+  }
+}
+
+function goToSlide(index) {
+  scrollToSlide(index);
+}
+
+function updateSlides() {
+  updateActiveSlideByScroll();
+}
+
+function updateProgress() {
+  const answeredCount = Object.values(state.answers).filter(Boolean).length;
+  progressFill.style.width = `${(answeredCount / questions.length) * 100}%`;
+
+  if (state.currentIndex === 0) {
+    progressText.textContent = "准备出发";
+    return;
+  }
+
+  if (answeredCount === questions.length && state.currentIndex === slides.length - 1) {
+    progressText.textContent = "人格已生成";
+    return;
+  }
+
+  progressText.textContent = `已完成 ${answeredCount}/${questions.length} 题`;
+}
+
+function renderResult() {
+  const summaryData = generateSummary(state.answers);
+  renderResultPage(summaryData);
+}
+
 init();
-
-
-

@@ -733,3 +733,106 @@ h2 {
 
 
 
+
+html,
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.page-shell {
+  overflow: visible;
+}
+
+.slides {
+  width: 100%;
+  height: auto;
+  transform: none !important;
+}
+
+.slide {
+  padding: 96px 20px 40px;
+  grid-template-rows: auto auto auto;
+  align-items: start;
+  align-content: start;
+  gap: 16px;
+  overflow: visible;
+  scroll-margin-top: 74px;
+}
+
+.question-scene {
+  min-height: min(28vh, 260px);
+}
+
+.result-slide {
+  padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+}
+
+@media (max-width: 720px) {
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .slide {
+    padding-top: 82px;
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .question-head h2 {
+    max-width: 11ch;
+  }
+
+  .question-scene {
+    min-height: min(22vh, 200px);
+  }
+
+  .preference-card {
+    min-height: 220px;
+  }
+}
+
+html {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+body {
+  overflow: visible !important;
+  overflow-x: hidden !important;
+}
+
+.page-shell {
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+}
+
+.slides {
+  overflow: visible !important;
+  transform: none !important;
+}
+
+.slide {
+  overflow: visible !important;
+}
+
+@media (max-width: 720px) {
+  .slide {
+    overflow: visible !important;
+  }
+}
+
+html {
+  overflow-y: hidden !important;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
