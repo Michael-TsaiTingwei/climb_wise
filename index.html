@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>找到你的攀岩DNA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Rubik:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <div class="texture texture-left"></div>
+    <div class="texture texture-right"></div>
+    <div class="progress-wrap" aria-hidden="true">
+      <div class="progress-bar">
+        <span id="progressFill"></span>
+      </div>
+      <p id="progressText">准备出发</p>
+    </div>
+
+    <main id="app" class="slides" aria-live="polite">
+      <section class="slide intro-slide active" data-screen="intro">
+        <div class="hero-badge">CLIMB WISE</div>
+        <h1>找到你的攀岩DNA</h1>
+        <p class="subtitle">5个灵魂拷问，发现你的岩壁人格</p>
+        <div id="welcomeScene" class="scene welcome-scene"></div>
+        <button id="startButton" class="button primary large">开始测试</button>
+      </section>
+
+      <section class="slide question-slide" data-screen="q1">
+        <div class="question-head">
+          <span class="question-tag">Question 1</span>
+          <h2>进公共厕所隔间时，你是什么状态？</h2>
+        </div>
+        <div id="scene-q1" class="scene question-scene"></div>
+        <div id="options-q1" class="options-grid"></div>
+      </section>
+
+      <section class="slide question-slide" data-screen="q2">
+        <div class="question-head">
+          <span class="question-tag">Question 2</span>
+          <h2>坐塑料凳子的时候，你的心理状态是？</h2>
+        </div>
+        <div id="scene-q2" class="scene question-scene"></div>
+        <div id="options-q2" class="options-grid"></div>
+      </section>
+
+      <section class="slide question-slide" data-screen="q3">
+        <div class="question-head">
+          <span class="question-tag">Question 3</span>
+          <h2>弯腰捡地上的东西时？</h2>
+        </div>
+        <div id="scene-q3" class="scene question-scene"></div>
+        <div id="options-q3" class="options-grid"></div>
+      </section>
+
+      <section class="slide question-slide" data-screen="q4">
+        <div class="question-head">
+          <span class="question-tag">Question 4</span>
+          <h2>拧瓶盖时你是哪种人？</h2>
+        </div>
+        <div id="scene-q4" class="scene question-scene"></div>
+        <div id="options-q4" class="options-grid"></div>
+      </section>
+
+      <section class="slide question-slide preference-slide" data-screen="q5">
+        <div class="question-head">
+          <span class="question-tag">Question 5</span>
+          <h2>你打游戏更喜欢哪种？</h2>
+        </div>
+        <div id="options-q5" class="preference-grid"></div>
+      </section>
+
+      <section class="slide result-slide" data-screen="result">
+        <div class="result-heading compact">
+          <span class="question-tag">Result</span>
+          <h2>✦ 你的攀岩人格 ✦</h2>
+        </div>
+
+        <div class="persona-card" id="personaCard">
+          <div class="persona-title-wrap">
+            <h3 id="personaTitle" class="persona-title"></h3>
+          </div>
+          <div class="persona-divider"></div>
+          <p id="personaSummary" class="persona-summary"></p>
+          <div class="persona-divider"></div>
+          <p id="personaStyle" class="persona-style"></p>
+        </div>
+
+        <p id="personaGuide" class="persona-guide"></p>
+
+        <div class="result-actions persona-actions">
+          <button id="miniProgramButton" class="button primary">去小程序获取专属路线 →</button>
+          <button id="gameButton" class="button secondary">先来玩个攀岩小游戏 🎮</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="qrModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close="modal"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="closeModal" aria-label="关闭弹窗">×</button>
+      <h3 id="modalTitle">PC端请扫码进入小程序</h3>
+      <img id="qrImage" alt="小程序码占位图" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Crect width='280' height='280' rx='24' fill='%231a1d1f'/%3E%3Crect x='24' y='24' width='232' height='232' rx='18' fill='%23f3efe5'/%3E%3Cpath d='M56 56h52v52H56zM172 56h52v52h-52zM56 172h52v52H56z' fill='%231a1d1f'/%3E%3Cpath d='M76 76h12v12H76zM192 76h12v12h-12zM76 192h12v12H76zM132 132h16v16h-16zM156 132h16v16h-16zM132 156h16v16h-16zM180 132h16v16h-16zM204 132h16v16h-16zM180 156h16v16h-16zM132 180h16v16h-16zM156 204h16v16h-16zM204 204h16v16h-16z' fill='%23fd7a1e'/%3E%3Ctext x='140' y='248' text-anchor='middle' font-family='Arial, sans-serif' font-size='16' fill='%231a1d1f'%3EMini Program QR Placeholder%3C/text%3E%3C/svg%3E">
+      <p id="modalText"></p>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
