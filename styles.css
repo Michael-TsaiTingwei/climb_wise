@@ -610,12 +610,16 @@ h2 {
 
   .slide {
     padding-top: 88px;
-    padding-bottom: 42px;
+    padding-bottom: 48px;
   }
 
   .question-slide h2 {
     max-width: min(16ch, 88vw);
-    font-size: clamp(1.6rem, 5.2vw, 2.45rem);
+    font-size: clamp(1.55rem, 5vw, 2.4rem);
+  }
+
+  .question-scene {
+    min-height: min(30vh, 260px);
   }
 
   .preference-card {
@@ -623,125 +627,25 @@ h2 {
   }
 
   .scene {
-    min-height: 240px;
+    min-height: 220px;
   }
 }
 
-@media (max-width: 720px) {
-  html,
-  body {
-    overflow: hidden;
-  }
-
-  .page-shell {
-    min-height: 100vh;
-    min-height: 100dvh;
-  }
-
-  .progress-wrap {
-    top: 14px;
-  }
-
-  .slide {
-    min-height: 100vh;
-    min-height: 100dvh;
-    gap: 14px;
-    padding-top: 78px;
-    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
-    padding-left: 14px;
-    padding-right: 14px;
-    align-content: start;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .slide::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
-  }
-
-  .question-head {
-    gap: 10px;
-  }
-
-  .question-head h2 {
-    font-size: clamp(1.45rem, 7vw, 2.2rem);
-  }
-
-  .question-scene {
-    min-height: min(30vh, 250px);
-    padding: 8px;
-  }
-
-  .options-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .option-card {
-    padding: 16px 16px 18px;
-  }
-
-  .option-card p {
-    font-size: 0.94rem;
-    line-height: 1.55;
-  }
-
-  .preference-card {
-    min-height: 240px;
-  }
-
-  .result-slide {
-    padding-top: 78px;
-    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
-  }
-
-  .persona-card,
-  .persona-guide,
-  .persona-actions {
-    width: calc(100vw - 32px);
-  }
-
-  .persona-card {
-    padding: 22px 18px;
-  }
-
-  .persona-summary {
-    font-size: 15px;
-    line-height: 1.75;
-  }
-
-  .persona-style {
-    font-size: 16px;
-    line-height: 1.6;
-  }
-
-  .persona-actions {
-    gap: 12px;
-    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-  }
-
-  .persona-actions .button {
-    width: 100%;
-  }
-}
-
-
-
-
-
-html,
-body {
+html {
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
 }
 
-.page-shell {
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.page-shell,
+.slides {
   overflow: visible;
 }
 
@@ -752,6 +656,7 @@ body {
 }
 
 .slide {
+  min-height: auto;
   padding: 96px 20px 40px;
   grid-template-rows: auto auto auto;
   align-items: start;
@@ -762,77 +667,165 @@ body {
 }
 
 .question-scene {
-  min-height: min(28vh, 260px);
+  min-height: min(28vh, 240px);
 }
 
 .result-slide {
-  padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+  padding-top: 92px;
+  padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
 }
 
 @media (max-width: 720px) {
-  html,
-  body {
-    overflow-x: hidden;
-    overflow-y: auto;
+  .progress-wrap {
+    top: 12px;
+    gap: 8px;
+  }
+
+  .progress-wrap p {
+    font-size: 12px;
+  }
+
+  .progress-bar {
+    width: min(420px, calc(100vw - 28px));
   }
 
   .slide {
-    padding-top: 82px;
-    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+    padding-top: 72px;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
     padding-left: 14px;
     padding-right: 14px;
+    gap: 10px;
   }
 
-  .question-head h2 {
-    max-width: 11ch;
+  .intro-slide {
+    gap: 16px;
+  }
+
+  .question-head,
+  .result-heading {
+    gap: 8px;
+  }
+
+  .question-slide h2 {
+    max-width: 10ch;
+    font-size: clamp(1.2rem, 6.9vw, 1.95rem);
+    line-height: 1.08;
   }
 
   .question-scene {
-    min-height: min(22vh, 200px);
+    min-height: min(19vh, 160px);
+    padding: 6px;
+  }
+
+  .options-grid,
+  .preference-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .option-card {
+    padding: 14px 14px 16px;
+    border-radius: 20px;
+  }
+
+  .option-card .option-label {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
+
+  .option-card p {
+    font-size: 0.92rem;
+    line-height: 1.45;
   }
 
   .preference-card {
-    min-height: 220px;
+    grid-template-rows: minmax(100px, 128px) auto;
+    min-height: 0;
+    padding: 12px;
+  }
+
+  .preference-card .mini-scene {
+    min-height: 108px;
+    margin-bottom: 8px;
+  }
+
+  .result-slide {
+    padding-top: 74px;
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+    gap: 12px;
+  }
+
+  .result-heading h2 {
+    max-width: 11ch;
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    line-height: 1.1;
+  }
+
+  .persona-card,
+  .persona-guide,
+  .persona-actions {
+    width: calc(100vw - 24px);
+  }
+
+  .persona-card {
+    padding: 18px 16px;
+  }
+
+  .persona-title {
+    font-size: clamp(20px, 6vw, 24px);
+  }
+
+  .persona-divider {
+    margin: 14px 0;
+  }
+
+  .persona-summary {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .persona-style {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .persona-guide {
+    font-size: 13px;
+  }
+
+  .persona-actions {
+    gap: 10px;
+    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .persona-actions .button {
+    width: 100%;
+  }
+
+  .button.large {
+    padding: 16px 24px;
+    font-size: 1rem;
   }
 }
 
-html {
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-}
-
-body {
-  overflow: visible !important;
-  overflow-x: hidden !important;
-}
-
-.page-shell {
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
-}
-
-.slides {
-  overflow: visible !important;
-  transform: none !important;
-}
-
-.slide {
-  overflow: visible !important;
-}
-
-@media (max-width: 720px) {
-  .slide {
-    overflow: visible !important;
+@media (max-width: 420px) {
+  .question-slide h2 {
+    max-width: 9ch;
+    font-size: clamp(1.12rem, 6.5vw, 1.75rem);
   }
-}
 
-html {
-  overflow-y: hidden !important;
-}
+  .question-scene {
+    min-height: min(18vh, 148px);
+  }
 
-body {
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
+  .option-card p {
+    font-size: 0.9rem;
+  }
+
+  .persona-summary {
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
 }
