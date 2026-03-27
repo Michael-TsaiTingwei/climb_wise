@@ -569,26 +569,18 @@ function persistUserData() {
 
 function handleMiniProgram() {
   const payload = buildPayload();
-  const url = new URL("https://example.com/climb-wise-mini-program");
-  url.searchParams.set("session_id", payload.session_id);
-
-  const ua = navigator.userAgent.toLowerCase();
-  const isWeChat = /micromessenger/.test(ua);
-  const isMobile = /android|iphone|ipad|ipod|mobile/.test(ua);
+  const baseExpUrl = new URL("https://open.weixin.qq.com/sns/getexpappinfo");
+  const miniProgramPath = `pages/index/index?session_id=${encodeURIComponent(payload.session_id)}`;
+  baseExpUrl.searchParams.set("appid", "wxfde22078c7bb3fba");
+  baseExpUrl.searchParams.set("path", miniProgramPath);
+  const jumpUrl = baseExpUrl.toString();
 
   if (!Object.values(payload.answers).every(Boolean)) {
     goToFirstIncomplete();
     return;
   }
 
-  if (!isMobile) {
-    document.getElementById("modalText").textContent = `请用微信扫码进入小程序，占位图后续可替换为正式小程序码。session_id: ${payload.session_id}`;
-    openModal();
-    return;
-  }
-
-  url.searchParams.set("env", isWeChat ? "wechat" : "mobile_browser");
-  window.location.href = url.toString();
+  window.location.href = jumpUrl;
 }
 
 function handleGameLink() {
